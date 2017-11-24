@@ -1,0 +1,27 @@
+service: meme-as-a-service
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  stage: prod
+  region: eu-west-1
+  environment:
+    IMAGES_DIR: ./images/
+    TEXT_SIZE: 50
+    TEXT_PADDING: 40
+
+plugins:
+  - serverless-apigw-binary
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+
+functions:
+  meme:
+    handler: handler.meme
+    events:
+      - http:
+          path: /
+          method: get
